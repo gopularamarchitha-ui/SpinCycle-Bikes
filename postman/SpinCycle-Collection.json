@@ -65,7 +65,7 @@
       "name": "Delete Bike",
       "request": {
         "method": "DELETE",
-        "url": "http://localhost:3000/api/bikes/1"
+        "url": "http://localhost:3000/api/bikes/4"
       }
     },
     {
