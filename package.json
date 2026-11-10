@@ -1,1 +1,9 @@
-
+{
+  "name": "spincycle-bikes",
+  "version": "1.0.0",
+  "description": "Bicycle rental management system",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  }
+}
