@@ -1,1 +1,108 @@
 
+{
+  "info": {
+    "name": "SpinCycle Bikes API Collection",
+    "description": "Postman collection for testing the SpinCycle Bikes backend APIs",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Welcome API",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:3000/"
+      }
+    },
+    {
+      "name": "Get All Bikes",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:3000/api/bikes"
+      }
+    },
+    {
+      "name": "Get Bike by ID",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:3000/api/bikes/1"
+      }
+    },
+    {
+      "name": "Add New Bike",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"bike_name\": \"Electric Bike\",\n  \"type\": \"Electric\",\n  \"status\": \"Available\"\n}"
+        },
+        "url": "http://localhost:3000/api/bikes"
+      }
+    },
+    {
+      "name": "Update Bike",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"bike_name\": \"Updated Mountain Bike\",\n  \"type\": \"Mountain\",\n  \"status\": \"Available\"\n}"
+        },
+        "url": "http://localhost:3000/api/bikes/1"
+      }
+    },
+    {
+      "name": "Delete Bike",
+      "request": {
+        "method": "DELETE",
+        "url": "http://localhost:3000/api/bikes/1"
+      }
+    },
+    {
+      "name": "Search Bikes by Type",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:3000/api/bikes?type=Mountain"
+      }
+    },
+    {
+      "name": "Pagination - Page 1",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:3000/api/bikes?page=1&limit=2"
+      }
+    },
+    {
+      "name": "Pagination - Page 2",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:3000/api/bikes?page=2&limit=2"
+      }
+    },
+    {
+      "name": "Pagination - Invalid Page",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:3000/api/bikes?page=0"
+      }
+    },
+    {
+      "name": "Rental Details",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:3000/api/rentals/details"
+      }
+    }
+  ]
+}
+
