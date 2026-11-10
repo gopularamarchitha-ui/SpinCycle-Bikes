@@ -1,11 +1,20 @@
 
 const db = require('../database/dbConnection');
 
-// GET: View all bikes
+// GET: View all bikes and search by type
 const getAllBikes = (req, res) => {
-    const sql = 'SELECT * FROM Bikes';
+    const { type } = req.query;
 
-    db.all(sql, [], (err, rows) => {
+    let sql = 'SELECT * FROM Bikes';
+    const params = [];
+
+    // Search bikes by type
+    if (type) {
+        sql += ' WHERE type LIKE ?';
+        params.push(`%${type.trim()}%`);
+    }
+
+    db.all(sql, params, (err, rows) => {
         if (err) {
             return res.status(500).json({
                 message: 'Error retrieving bikes',
@@ -58,7 +67,7 @@ const addBike = (req, res) => {
 
     db.run(
         sql,
-        [bike_name, type, status || 'Available'],
+        [bike_name.trim(), type.trim(), status || 'Available'],
         function (err) {
             if (err) {
                 return res.status(500).json({
@@ -88,7 +97,7 @@ const updateBike = (req, res) => {
 
     db.run(
         sql,
-        [bike_name, type, status, bikeId],
+        [bike_name.trim(), type.trim(), status || 'Available', bikeId],
         function (err) {
             if (err) {
                 return res.status(500).json({
