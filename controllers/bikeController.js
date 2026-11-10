@@ -5,7 +5,7 @@ const db = require('../database/dbConnection');
 const getAllBikes = (req, res) => {
     // Get pagination and search values
     const page = Number(req.query.page || 1);
-    const limit = Number(req.query.limit || 10);
+    const limit = Number(req.query.limit || 5);
     const type = req.query.type;
 
     // Validate page and limit
