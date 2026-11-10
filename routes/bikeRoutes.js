@@ -2,6 +2,7 @@
 const express = require('express');
 const router = express.Router();
 
+// Import bike controllers
 const {
     getAllBikes,
     getBikeById,
@@ -10,12 +11,32 @@ const {
     deleteBike
 } = require('../controllers/bikeController');
 
-// Bike API routes
+// Import validation middleware
+const {
+    validateBike,
+    validateBikeId
+} = require('../middleware/validation');
+
+// GET: View all bikes and search by type
 router.get('/bikes', getAllBikes);
-router.get('/bikes/:id', getBikeById);
-router.post('/bikes', addBike);
-router.put('/bikes/:id', updateBike);
-router.delete('/bikes/:id', deleteBike);
+
+// GET: View one bike
+router.get('/bikes/:id', validateBikeId, getBikeById);
+
+// POST: Add a bike
+router.post('/bikes', validateBike, addBike);
+
+// PUT: Update a bike
+router.put(
+    '/bikes/:id',
+    validateBikeId,
+    validateBike,
+    updateBike
+);
+
+// DELETE: Delete a bike
+router.delete('/bikes/:id', validateBikeId, deleteBike);
 
 module.exports = router;
+
 
