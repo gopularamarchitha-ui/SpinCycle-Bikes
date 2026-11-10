@@ -1,29 +1,19 @@
-// Handles input validation and error handling
-// Validate bike details
+
 const validateBike = (req, res, next) => {
     const { bike_name, type, status } = req.body;
 
-    // Check bike name
-    if (
-        typeof bike_name !== 'string' ||
-        bike_name.trim() === ''
-    ) {
+    if (typeof bike_name !== 'string' || bike_name.trim() === '') {
         return res.status(400).json({
             message: 'Bike name is required'
         });
     }
 
-    // Check bike type
-    if (
-        typeof type !== 'string' ||
-        type.trim() === ''
-    ) {
+    if (typeof type !== 'string' || type.trim() === '') {
         return res.status(400).json({
             message: 'Bike type is required'
         });
     }
 
-    // Check bike status
     if (
         status !== undefined &&
         !['Available', 'Rented', 'Maintenance'].includes(status)
@@ -36,7 +26,6 @@ const validateBike = (req, res, next) => {
     next();
 };
 
-// Validate bike ID
 const validateBikeId = (req, res, next) => {
     const bikeId = Number(req.params.id);
 
@@ -49,7 +38,5 @@ const validateBikeId = (req, res, next) => {
     next();
 };
 
-module.exports = {
-    validateBike,
-    validateBikeId
-};
+module.exports = { validateBike, validateBikeId };
+
