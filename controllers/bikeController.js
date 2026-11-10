@@ -1,33 +1,81 @@
 
 const db = require('../database/dbConnection');
 
-// GET: View all bikes and search by type
+
 const getAllBikes = (req, res) => {
-    const { type } = req.query;
+    // Get pagination and search values
+    const page = Number(req.query.page || 1);
+    const limit = Number(req.query.limit || 10);
+    const type = req.query.type;
 
-    let sql = 'SELECT * FROM Bikes';
-    const params = [];
-
-    // Search bikes by type
-    if (type) {
-        sql += ' WHERE type LIKE ?';
-        params.push(`%${type.trim()}%`);
+    // Validate page and limit
+    if (
+        !Number.isInteger(page) ||
+        !Number.isInteger(limit) ||
+        page <= 0 ||
+        limit <= 0
+    ) {
+        return res.status(400).json({
+            message: 'Page and limit must be positive integers'
+        });
     }
 
-    db.all(sql, params, (err, rows) => {
-        if (err) {
+    // Calculate offset
+    const offset = (page - 1) * limit;
+
+    // Build SQL query
+    let sql = 'SELECT * FROM Bikes';
+    let countSql = 'SELECT COUNT(*) AS total FROM Bikes';
+
+    const params = [];
+    const countParams = [];
+
+    // Search by bike type if provided
+    if (type && type.trim()) {
+        sql += ' WHERE type LIKE ?';
+        countSql += ' WHERE type LIKE ?';
+
+        params.push(`%${type.trim()}%`);
+        countParams.push(`%${type.trim()}%`);
+    }
+
+    // Add pagination
+    sql += ' ORDER BY bike_id LIMIT ? OFFSET ?';
+
+    params.push(limit, offset);
+
+    // Get total number of matching bikes
+    db.get(countSql, countParams, (countError, countResult) => {
+        if (countError) {
             return res.status(500).json({
-                message: 'Error retrieving bikes',
-                error: err.message
+                message: 'Error counting bikes',
+                error: countError.message
             });
         }
 
-        res.status(200).json({
-            message: 'Bikes retrieved successfully',
-            bikes: rows
+        // Get bikes for the requested page
+        db.all(sql, params, (err, rows) => {
+            if (err) {
+                return res.status(500).json({
+                    message: 'Error retrieving bikes',
+                    error: err.message
+                });
+            }
+
+            res.status(200).json({
+                message: 'Bikes retrieved successfully',
+                pagination: {
+                    page: page,
+                    limit: limit,
+                    totalBikes: countResult.total,
+                    totalPages: Math.ceil(countResult.total / limit)
+                },
+                bikes: rows
+            });
         });
     });
 };
+
 
 // GET: View one bike by ID
 const getBikeById = (req, res) => {
