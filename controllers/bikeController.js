@@ -2,8 +2,19 @@
 const db = require('../database/dbConnection');
 
 const getAllBikes = (req, res) => {
-    const sql = 'SELECT * FROM Bikes ORDER BY bike_id';
-    db.all(sql, [], (err, rows) => {
+    const { page, limit, offset } = req.pagination;
+    const search = req.searchCondition;
+
+    const sql = `
+        SELECT * FROM Bikes
+        ${search.sql}
+        ORDER BY bike_id
+        LIMIT ? OFFSET ?
+    `;
+
+    const params = [...search.params, limit, offset];
+
+    db.all(sql, params, (err, rows) => {
         if (err) {
             return res.status(500).json({
                 message: 'Error retrieving bikes',
@@ -13,11 +24,12 @@ const getAllBikes = (req, res) => {
 
         res.status(200).json({
             message: 'Bikes retrieved successfully',
+            page,
+            limit,
             bikes: rows
         });
     });
 };
-
 // GET: View one bike by ID
 const getBikeById = (req, res) => {
     const bikeId = req.params.id;
