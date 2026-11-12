@@ -16,9 +16,10 @@ const {
     validateBike,
     validateBikeId
 } = require('../middleware/validation');
+const searchBikeByType = require('../middleware/search');
 
 // GET: View all bikes and search by type
-router.get('/bikes', getAllBikes);
+router.get('/bikes', searchBikeByType, getAllBikes);
 
 // GET: View one bike
 router.get('/bikes/:id', validateBikeId, getBikeById);
