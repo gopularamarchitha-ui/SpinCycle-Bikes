@@ -20,7 +20,13 @@ const searchBikeByType = require('../middleware/search');
 const pagination = require('../middleware/pagination');
 
 // GET: View all bikes and search by type
-router.get('/bikes', searchBikeByType, getAllBikes);
+// GET: View all bikes, search by type, and pagination
+router.get(
+    '/bikes',
+    searchBikeByType,
+    pagination,
+    getAllBikes
+);
 
 // GET: View one bike
 router.get('/bikes/:id', validateBikeId, getBikeById);
