@@ -56,7 +56,7 @@ const addBike = (req, res) => {
 
     db.run(
         sql,
-        [bike_name.trim(), type.trim(), status || 'Available'],
+        [bike_name, type, status || 'Available'],
         function (err) {
             if (err) {
                 return res.status(500).json({
@@ -86,7 +86,7 @@ const updateBike = (req, res) => {
 
     db.run(
         sql,
-        [bike_name.trim(), type.trim(), status || 'Available', bikeId],
+        [bike_name, type, status || 'Available', bikeId],
         function (err) {
             if (err) {
                 return res.status(500).json({
