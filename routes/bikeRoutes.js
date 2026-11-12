@@ -17,6 +17,7 @@ const {
     validateBikeId
 } = require('../middleware/validation');
 const searchBikeByType = require('../middleware/search');
+const pagination = require('../middleware/pagination');
 
 // GET: View all bikes and search by type
 router.get('/bikes', searchBikeByType, getAllBikes);
@@ -37,6 +38,12 @@ router.put(
 
 // DELETE: Delete a bike
 router.delete('/bikes/:id', validateBikeId, deleteBike);
+router.get(
+    '/bikes',
+    searchBikeByType,
+    pagination,
+    getAllBikes
+);
 
 module.exports = router;
 
