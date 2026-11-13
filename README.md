@@ -1,168 +1,329 @@
-SpinCycle Bikes
-Project Overview
-SpinCycle Bikes is a bicycle rental management backend API built with Node.js, Express.js, and SQLite. It provides endpoints to manage bikes, search bikes by type, validate incoming bike data, paginate bike listings, and retrieve rental information by joining the Riders, Bikes, and Rentals tables.
-Technologies
-- Node.js – JavaScript runtime
-- Express.js – REST API framework
-- SQLite – Relational database
-- JavaScript – Application logic
-- Postman – API testing
-- Render – Deployment
-Live API
-- Base URL: https://spincycle-bikes.onrender.com
-- Welcome endpoint: https://spincycle-bikes.onrender.com/
-The deployed service may take a short time to respond after being idle.
-Project Structure
+# SpinCycle Bikes – Bike Rental Management System
+
+## Project Overview
+
+SpinCycle Bikes is a Bike Rental Management System developed using Node.js, Express.js, and SQLite. It provides RESTful APIs to manage bikes, search bikes by type, validate user inputs, handle pagination, and retrieve rental details.
+
+This project was developed as a group project to gain practical experience in backend development, database integration, API creation, middleware, and API testing.
+
+## Project Links
+
+- **GitHub Repository:** https://github.com/gopularamarchitha-ui/SpinCycle-Bikes
+- **Live Deployment:** https://spincycle-bikes.onrender.com
+
+## Key Features
+
+- View all bikes.
+- Retrieve bike details using bike ID.
+- Add new bikes.
+- Update existing bike details.
+- Delete bikes.
+- Search bikes by type.
+- Pagination for bike listings.
+- Input validation using middleware.
+- Retrieve rental details using SQL JOIN operations.
+- SQLite database integration with sample data.
+
+## Technologies Used
+
+- Node.js
+- Express.js
+- SQLite
+- JavaScript
+- REST API
+- Postman
+- Git and GitHub
+- Render
+
+## Project Structure
+
+```text
 SpinCycle-Bikes/
-├── server.js
-├── package.json
-├── .gitignore
-├── README.md
+│
 ├── controllers/
 │   ├── bikeController.js
 │   └── rentalController.js
+│
 ├── database/
-│   ├── dbConnection.js
-│   ├── schema.sql
-│   └── sampleData.sql
+│   ├── schema.js
+│   └── sampledata.js
+│
 ├── middleware/
 │   ├── validation.js
 │   ├── search.js
 │   └── pagination.js
+│
 ├── routes/
 │   ├── bikeRoutes.js
 │   └── rentalRoutes.js
-├── postman/
-│   └── SpinCycle-Collection.json
-└── Screenshots/
-    └── API testing screenshots
-Getting Started
-Prerequisites
-Install Node.js and npm. You can use Postman to test the endpoints.
-Installation
-1. Clone the repository:
-   git clone https://github.com/gopularamarchitha-ui/SpinCycle-Bikes.git
-2. Open the project folder:
-   cd SpinCycle-Bikes
-3. Install dependencies:
-   npm install
-4. Start the server:
-   npm start
-5. The API runs locally at:
-   http://localhost:3000
-The database connection module initializes the SQLite database from database/schema.sql and database/sampleData.sql when the server starts.
-API Endpoints
-Use the deployed base URL below, or replace it with http://localhost:3000 when testing locally.
+│
+├── Screenshots/
+│   ├── member3-get-all-bikes.png
+│   ├── member3-get-bike-by-id.png
+│   ├── member3-add-bike.png
+│   ├── member3-update-bike.png
+│   ├── member3-delete-bike.png
+│   ├── member3-rental-details.png
+│   ├── member4-search-bikes.png
+│   ├── member4-validation.png
+│   ├── member5-pagination-page-1.png
+│   ├── member5-pagination-page-2.png
+│   └── member5-pagination-validation.png
+│
+├── server.js
+├── package.json
+├── package-lock.json
+└── README.md
+```
 
-Base URL: https://spincycle-bikes.onrender.com
-Method	Endpoint	Description
-GET	/	Welcome message
-GET	/api/bikes	Get bikes
-GET	/api/bikes/:id	Get one bike by ID
-POST	/api/bikes	Add a bike
-PUT	/api/bikes/:id	Update a bike
-DELETE	/api/bikes/:id	Delete a bike
-GET	/api/rentals/details	Get rental details with rider and bike information
+*Note: Update the structure if your actual project filenames or folders are different.*
 
+## Database Setup
 
-Example: Add a Bike
-Request: POST /api/bikes
+The project uses SQLite for database management.
 
-Set the request body to JSON:
+### Database Files
+
+- **schema.js:** Defines and creates the required database tables.
+- **sampledata.js:** Inserts sample records for testing the application.
+
+The database stores information about bikes, riders, and rentals.
+
+## Installation and Setup
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/gopularamarchitha-ui/SpinCycle-Bikes.git
+```
+
+### 2. Navigate to the Project Folder
+
+```bash
+cd SpinCycle-Bikes
+```
+
+### 3. Install Dependencies
+
+```bash
+npm install
+```
+
+### 4. Start the Server
+
+```bash
+npm start
+```
+
+If the project does not have a start script, run:
+
+```bash
+node server.js
+```
+
+The local server will run at:
+
+```text
+http://localhost:3000
+```
+
+## API Documentation
+
+All API endpoints use the `/api` prefix.
+
+### Bike Management APIs
+
+| HTTP Method | Endpoint | Description |
+|---|---|---|
+| GET | `/api/bikes` | Retrieve all bikes |
+| GET | `/api/bikes/:id` | Retrieve a bike by ID |
+| POST | `/api/bikes` | Add a new bike |
+| PUT | `/api/bikes/:id` | Update bike details |
+| DELETE | `/api/bikes/:id` | Delete a bike |
+
+### Rental API
+
+| HTTP Method | Endpoint | Description |
+|---|---|---|
+| GET | `/api/rentals/details` | Retrieve rental details with rider and bike information |
+
+## Example API Requests
+
+### 1. Get All Bikes
+
+```http
+GET /api/bikes
+```
+
+### 2. Get Bike by ID
+
+```http
+GET /api/bikes/1
+```
+
+### 3. Add a New Bike
+
+**Request:**
+
+```http
+POST /api/bikes
+Content-Type: application/json
+```
+
+**Request Body:**
+
+```json
 {
   "bike_name": "Electric Bike",
   "type": "Electric",
   "status": "Available"
 }
-Allowed status values are Available, Rented, and Maintenance. If status is omitted, the API defaults it to Available.
-Example: Update a Bike
-Request: PUT /api/bikes/1
+```
+
+### 4. Update Bike Details
+
+**Request:**
+
+```http
+PUT /api/bikes/1
+Content-Type: application/json
+```
+
+**Request Body:**
+
+```json
 {
   "bike_name": "Premium Mountain Bike",
   "type": "Mountain",
   "status": "Available"
 }
-Bike Search
-Search bikes by type with the type query parameter.
+```
+
+### 5. Delete a Bike
+
+```http
+DELETE /api/bikes/4
+```
+
+Use an existing bike ID when testing.
+
+### 6. Get Rental Details
+
+```http
+GET /api/rentals/details
+```
+
+This endpoint uses SQL JOIN operations to retrieve rental information along with the related rider and bike details.
+
+## Search and Pagination
+
+The project supports searching bikes by type and displaying results in pages.
+
+### Search Bikes by Type
+
+```http
 GET /api/bikes?type=Mountain
-The search uses a partial match, so it can return bikes whose type contains the supplied text. If no bikes match, the response contains an empty bikes array.
-Pagination
-The bike listing endpoint supports pagination with the page and limit query parameters.
-- Default page: 1
-- Default limit: 5
-- Both values must be positive integers.
-Example request	Purpose
-/api/bikes?page=1&limit=2	Get the first page of up to two bikes
-/api/bikes?page=2&limit=2	Get the second page
-/api/bikes?page=0	Check invalid page handling
-/api/bikes?limit=-2	Check invalid limit handling
-/api/bikes?type=Mountain&page=1&limit=2	Combine search and pagination
+```
 
+```http
+GET /api/bikes?type=Road
+```
 
-The successful response includes the current page, limit, and bikes array.
-Input Validation and Error Handling
-Validation middleware checks incoming bike requests:
-- bike_name must be a non-empty string.
-- type must be a non-empty string.
-- If supplied, status must be Available, Rented, or Maintenance.
-- Bike IDs in the URL must be positive integers.
-The API returns HTTP 400 for invalid input, 404 when a requested bike does not exist, and 500 if a server/database error occurs.
-Database Design
-The project uses SQLite and defines three tables in database/schema.sql:
-- Riders – Stores rider names and email addresses.
-- Bikes – Stores bike names, types, and availability status.
-- Rentals – Stores rental dates and references the related rider and bike.
-The foreign keys in the Rentals table connect rental records to Riders and Bikes. Sample records are inserted from database/sampleData.sql.
-Rental Details JOIN
-GET /api/rentals/details uses SQL INNER JOIN operations to combine rental records with the matching rider and bike details. The response includes the rider name and email, bike name and type, rental date, and return date.
-Postman Testing
-The Postman collection is included at:
-postman/SpinCycle-Collection.json
-Import this file into Postman to run the API requests. The screenshots below document the project tests.
-API Testing Screenshots
-1. Bike CRUD Operations
-Get all bikes
+### Pagination
 
-Get a bike by ID
+```http
+GET /api/bikes?page=1&limit=2
+```
 
-Add a bike
+```http
+GET /api/bikes?page=2&limit=2
+```
 
-Update a bike
+### Combined Search and Pagination
 
-Delete a bike
+```http
+GET /api/bikes?type=Mountain&page=1&limit=2
+```
 
-2. Input Validation
-Missing bike name
+## Input Validation
 
-Missing bike type
+Middleware is used to validate API requests before they reach the controllers.
 
-Invalid bike status
+Validation includes:
 
-3. Bike-Type Search
-Search for Mountain bikes
+- Bike name must not be empty.
+- Bike type must not be empty.
+- Bike status must be one of the supported values: `Available`, `Rented`, or `Maintenance`.
+- Bike ID must be a positive integer.
+- Pagination values must be valid positive integers.
 
-Search for a type that does not exist
+Invalid requests return appropriate error responses.
 
-4. Pagination Tests
-Pagination test 1
+## HTTP Status Codes
 
-Pagination test 2
+| Status Code | Description |
+|---|---|
+| 200 | Request successful |
+| 201 | Resource created successfully |
+| 400 | Invalid request or validation error |
+| 404 | Resource not found |
+| 500 | Internal server error |
 
-Pagination test 3
+## API Testing Using Postman
 
-5. Rental Details – SQL JOIN
+Postman was used to test the REST APIs and verify their responses.
 
-Team Contributions
-- Member 1: Server setup and API integration.
-- Member 2: Database connection, schema, and sample data.
-- Member 3: Bike CRUD endpoints and rental details JOIN endpoint.
-- Member 4: Bike input validation and bike-type search middleware.
-- Member 5: Pagination middleware, Postman testing, and documentation.
-Deployment
-The application is deployed on Render:
+### Member 3 – Bike CRUD and Rental Details
 
-https://spincycle-bikes.onrender.com
+| Test | Screenshot |
+|---|---|
+| Get All Bikes | [View Screenshot](Screenshots/member3-get-all-bikes.png) |
+| Get Bike by ID | [View Screenshot](Screenshots/member3-get-bike-by-id.png) |
+| Add a Bike | [View Screenshot](Screenshots/member3-add-bike.png) |
+| Update a Bike | [View Screenshot](Screenshots/member3-update-bike.png) |
+| Delete a Bike | [View Screenshot](Screenshots/member3-delete-bike.png) |
+| Rental Details | [View Screenshot](Screenshots/member3-rental-details.png) |
 
-To deploy changes, push the updated project to the connected GitHub repository and allow the Render service to redeploy.
-Conclusion
-SpinCycle Bikes demonstrates a RESTful backend application with SQLite database integration, bike CRUD operations, input validation, search, pagination, and SQL JOIN queries. The included Postman collection and screenshots provide examples of API testing.
+### Member 4 – Validation and Search
+
+| Test | Screenshot |
+|---|---|
+| Search Bikes by Type | [View Screenshot](Screenshots/member4-search-bikes.png) |
+| Input Validation | [View Screenshot](Screenshots/member4-validation.png) |
+
+### Member 5 – Pagination
+
+| Test | Screenshot |
+|---|---|
+| Pagination – Page 1 | [View Screenshot](Screenshots/member5-pagination-page-1.png) |
+| Pagination – Page 2 | [View Screenshot](Screenshots/member5-pagination-page-2.png) |
+| Pagination Validation | [View Screenshot](Screenshots/member5-pagination-validation.png) |
+
+*Note: Upload the actual Postman screenshots into the `Screenshots` folder using the filenames above. The links will work once the files are pushed to GitHub.*
+
+## Team Contributions
+
+| Team Member | Responsibilities |
+|---|---|
+| Member 1 | Server setup, dependencies, and API integration |
+| Member 2 | SQLite database schema, sample data, and database connection |
+| Member 3 | Bike CRUD operations and Rental JOIN functionality |
+| Member 4 | Input validation middleware and bike-type search |
+| Member 5 | Pagination middleware, Postman testing, and README documentation |
+
+## Learning Outcomes
+
+Through this project, we gained practical experience in:
+
+- Building RESTful APIs using Node.js and Express.js.
+- Connecting an application to an SQLite database.
+- Performing CRUD operations.
+- Writing SQL JOIN queries.
+- Implementing middleware for validation, search, and pagination.
+- Testing APIs using Postman.
+- Collaborating through Git and GitHub.
+- Deploying a backend application using Render.
+
+## Conclusion
+
+SpinCycle Bikes demonstrates the development of a backend Bike Rental Management System using Node.js, Express.js, and SQLite. The project combines database management, REST API development, middleware integration, and API testing in a collaborative group environment.
